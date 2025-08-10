@@ -1,20 +1,17 @@
-import ImageCard from './ImageCard';
+import React from 'react';
+import css from './ImageGallery.module.css';
+import ImageCard from '../ImageCard/ImageCard';
 
-export default function ImageGallery({ images, onClick }) {
-    if (images.length === 0) return null;
+export default function ImageGallery({ images, onImageClick, hasSearched, loading }) {
+    if (hasSearched && images && images.length === 0 && !loading) {
+        return <p className={css.noImages}>Зображення не знайдено.</p>;
+    }
 
     return (
-        <ul style={{ 
-            display: 'grid', 
-            gridTemplateColumns: 'repeat(4, 1fr)', 
-            gap: '16px', 
-            listStyle: 'none', 
-            padding: 0,
-            margin: '20px 0'
-        }}>
-            {images.map(img => (
-                <li key={img.id} id={`image-${img.id}`}>
-                    <ImageCard image={img} onClick={() => onClick(img)} />
+        <ul className={css.gallery}>
+            {images && images.map(image => (
+                <li key={image.id} className={css['gallery-item']}>
+                    <ImageCard image={image} onClick={onImageClick} />
                 </li>
             ))}
         </ul>
